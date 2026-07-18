@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self';">
+    <title>Mouse Mover</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <div class="app-icon" aria-hidden="true">↝</div>
+      <h1>Mouse Mover</h1>
+      <p class="subtitle">The cursor moves on its own and never clicks.</p>
+
+      <section class="status-card" aria-live="polite">
+        <span class="status-dot" aria-hidden="true"></span>
+        <div>
+          <span class="status-label">Status</span>
+          <strong id="status">Starting...</strong>
+        </div>
+      </section>
+
+      <button id="toggle-button" type="button">Enable movement</button>
+
+      <p class="hotkey-hint">Hotkey: <kbd>Ctrl</kbd> + <kbd>F12</kbd></p>
+      <p id="message" class="message" role="status"></p>
+    </main>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>

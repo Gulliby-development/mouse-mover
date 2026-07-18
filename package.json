@@ -1,0 +1,30 @@
+{
+  "name": "mouse-mover",
+  "version": "1.0.0",
+  "description": "A small Electron app that keeps the cursor moving naturally",
+  "private": true,
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test",
+    "package": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^43.1.1",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.mousemover.app",
+    "productName": "Mouse Mover",
+    "npmRebuild": false,
+    "files": [
+      "src/**/*"
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  },
+  "dependencies": {
+    "uiohook-napi": "^1.5.5"
+  }
+}

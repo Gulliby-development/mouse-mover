@@ -1,0 +1,131 @@
+:root {
+  color-scheme: dark;
+  font-family: "Segoe UI", sans-serif;
+  background: #111827;
+  color: #f9fafb;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(circle at top, #24324a, #111827 70%);
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 340px;
+  padding: 24px 28px 16px;
+  text-align: center;
+}
+
+.app-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 1px solid #4b6388;
+  border-radius: 14px;
+  background: #1e293b;
+  color: #60a5fa;
+  font-size: 30px;
+}
+
+h1 {
+  margin: 16px 0 6px;
+  font-size: 24px;
+}
+
+.subtitle {
+  margin: 0;
+  color: #aab7cc;
+  font-size: 13px;
+}
+
+.status-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 25px 0 16px;
+  padding: 14px 16px;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  background: rgb(15 23 42 / 70%);
+  text-align: left;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #64748b;
+}
+
+.status-dot.is-active {
+  background: #34d399;
+  box-shadow: 0 0 12px rgb(52 211 153 / 70%);
+}
+
+.status-label {
+  display: block;
+  margin-bottom: 3px;
+  color: #94a3b8;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+#status {
+  font-size: 14px;
+}
+
+button {
+  width: 100%;
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 9px;
+  background: #3b82f6;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+button:hover {
+  background: #60a5fa;
+}
+
+button:active {
+  background: #2563eb;
+}
+
+.hotkey-hint {
+  margin: 17px 0 0;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+kbd {
+  padding: 2px 5px;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  background: #1e293b;
+  color: #e2e8f0;
+  font-size: 11px;
+}
+
+.message {
+  min-height: 16px;
+  margin: 9px 0 0;
+  color: #fbbf24;
+  font-size: 11px;
+}
