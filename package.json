@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron .",
     "test": "node --test",
-    "package": "electron-builder"
+    "package": "electron-builder --publish never"
   },
   "devDependencies": {
     "electron": "^43.1.1",
