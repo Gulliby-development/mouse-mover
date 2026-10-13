@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/logo.svg" width="96" alt="" /></p>
+
 # Mouse Mover
 
 A small Windows Electron app that keeps the cursor moving naturally across the primary display. It follows slightly curved paths at about 200 px/s by default and selects a new destination roughly every three seconds of travel. As soon as one destination is reached, movement continues toward the next one.
