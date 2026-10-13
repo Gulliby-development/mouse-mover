@@ -1,6 +1,6 @@
 # Mouse Mover
 
-A small Windows Electron app that keeps the cursor moving naturally across the primary display. It follows slightly curved paths at about 200 px/s and selects a new destination roughly every three seconds of travel. As soon as one destination is reached, movement continues toward the next one.
+A small Windows Electron app that keeps the cursor moving naturally across the primary display. It follows slightly curved paths at about 200 px/s by default and selects a new destination roughly every three seconds of travel. As soon as one destination is reached, movement continues toward the next one.
 
 The app never clicks, types, scrolls, or performs any other input action.
 
@@ -9,6 +9,17 @@ The app never clicks, types, scrolls, or performs any other input action.
 - The app starts with movement disabled.
 - Press `Ctrl + F12` to toggle movement globally.
 - You can also toggle movement with the button in the app window.
+
+## Settings
+
+Set `MOUSE_MOVER_SPEED` to control movement speed in pixels per second. Values from 50 to 1000, inclusive, are accepted. If the value is invalid, it is ignored, a warning is printed in the console, and the default of 200 is used.
+
+Each segment still travels 400 to 800 pixels. A higher speed means less time per segment.
+
+```powershell
+$env:MOUSE_MOVER_SPEED = "300"
+npm start
+```
 
 ## Run from source
 

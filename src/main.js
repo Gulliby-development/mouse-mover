@@ -2,6 +2,7 @@ const path = require('node:path');
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 
 const { createGlobalHotkey } = require('./global-hotkey');
+const { readSpeed } = require('./settings');
 const { MouseMover } = require('./mouse-mover');
 const { createWindowsCursor } = require('./windows-cursor');
 
@@ -33,13 +34,19 @@ function createMainWindow() {
 }
 
 function createMouseMover() {
+  const { speedPxPerSecond, warning } = readSpeed(process.env);
+  if (warning !== null) {
+    console.warn(warning);
+  }
+
   cursorController = createWindowsCursor();
 
   return new MouseMover({
     cursor: cursorController,
     getScreenBounds: () => cursorController.getScreenBounds(),
     onStateChanged: sendStateToRenderer,
-    onError: sendMovementError
+    onError: sendMovementError,
+    speedPxPerSecond
   });
 }
 

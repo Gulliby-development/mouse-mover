@@ -1,4 +1,4 @@
-const MOVEMENT_SPEED_PX_PER_SECOND = 200;
+const { DEFAULT_SPEED_PX_PER_SECOND } = require('./settings');
 const TARGET_TRAVEL_TIME_MS = 3_000;
 const MIN_TARGET_DISTANCE_PX = 400;
 const MAX_TARGET_DISTANCE_PX = 800;
@@ -11,13 +11,15 @@ class MouseMover {
     getScreenBounds,
     random = Math.random,
     onStateChanged = () => {},
-    onError = () => {}
+    onError = () => {},
+    speedPxPerSecond = DEFAULT_SPEED_PX_PER_SECOND
   }) {
     this.cursor = cursor;
     this.getScreenBounds = getScreenBounds;
     this.random = random;
     this.onStateChanged = onStateChanged;
     this.onError = onError;
+    this.speedPxPerSecond = speedPxPerSecond;
     this.enabled = false;
     this.currentPosition = null;
     this.movementPromise = null;
@@ -80,7 +82,8 @@ class MouseMover {
     const movementPlan = createMovementPlan(
       this.currentPosition,
       targetPosition,
-      this.random
+      this.random,
+      this.speedPxPerSecond
     );
 
     await this.cursor.moveTo(targetPosition, movementPlan);
@@ -139,11 +142,16 @@ function createTargetPosition(bounds, currentPosition, random) {
   return createFallbackTarget(bounds, currentPosition, targetDistance, random);
 }
 
-function createMovementPlan(currentPosition, targetPosition, random) {
+function createMovementPlan(
+  currentPosition,
+  targetPosition,
+  random,
+  speedPxPerSecond = DEFAULT_SPEED_PX_PER_SECOND
+) {
   const distance = distanceBetween(currentPosition, targetPosition);
   const durationMs = Math.max(
     1_000,
-    Math.round(distance / MOVEMENT_SPEED_PX_PER_SECOND * 1_000)
+    Math.round(distance / speedPxPerSecond * 1_000)
   );
   const maximumCurveOffset = Math.min(distance * 0.35, MAX_CURVE_OFFSET_PX);
   const curveOffset = Math.round((random() - 0.5) * maximumCurveOffset);
@@ -152,7 +160,7 @@ function createMovementPlan(currentPosition, targetPosition, random) {
 }
 
 function getTargetDistance() {
-  return MOVEMENT_SPEED_PX_PER_SECOND * TARGET_TRAVEL_TIME_MS / 1_000;
+  return DEFAULT_SPEED_PX_PER_SECOND * TARGET_TRAVEL_TIME_MS / 1_000;
 }
 
 function createFallbackTarget(bounds, currentPosition, targetDistance, random) {
