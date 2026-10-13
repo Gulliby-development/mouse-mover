@@ -61,9 +61,35 @@ test('createMovementPlan targets roughly three seconds at 200 pixels per second'
   const currentPosition = { x: 0, y: 0 };
   const targetPosition = { x: 600, y: 0 };
 
-  const movementPlan = createMovementPlan(currentPosition, targetPosition, () => 0.5);
+  const defaultMovementPlan = createMovementPlan(currentPosition, targetPosition, () => 0.5);
+  const explicitMovementPlan = createMovementPlan(currentPosition, targetPosition, () => 0.5, 200);
 
-  assert.deepEqual(movementPlan, { durationMs: 3000, curveOffset: 0 });
+  assert.deepEqual(defaultMovementPlan, { durationMs: 3000, curveOffset: 0 });
+  assert.deepEqual(explicitMovementPlan, defaultMovementPlan);
+});
+
+test('createMovementPlan uses configured speed and preserves the curve offset', () => {
+  const currentPosition = { x: 0, y: 0 };
+  const targetPosition = { x: 600, y: 0 };
+  const cases = [
+    [200, 3000],
+    [300, 2000],
+    [100, 6000],
+    [50, 12000],
+    [600, 1000],
+    [1000, 1000]
+  ];
+
+  for (const [speedPxPerSecond, durationMs] of cases) {
+    const movementPlan = createMovementPlan(currentPosition, targetPosition, () => 0.5, speedPxPerSecond);
+
+    assert.deepEqual(movementPlan, { durationMs, curveOffset: 0 });
+  }
+
+  assert.deepEqual(
+    createMovementPlan(currentPosition, targetPosition, () => 0.75, 300),
+    { durationMs: 2000, curveOffset: 50 }
+  );
 });
 
 test('starting the mouse mover starts a movement segment immediately', async () => {
@@ -88,6 +114,34 @@ test('starting the mouse mover starts a movement segment immediately', async () 
   await waitForMovementCycle();
 
   assert.equal(movedTo.length, 1);
+});
+
+test('MouseMover passes its configured speed to the movement plan', async () => {
+  const movedTo = [];
+  let mover;
+  const cursor = {
+    getPosition: async () => ({ x: 960, y: 540 }),
+    moveTo: async (position, movementPlan) => {
+      movedTo.push({ position, movementPlan });
+      mover.stop();
+    }
+  };
+  mover = new MouseMover({
+    cursor,
+    getScreenBounds: () => ({ left: 0, top: 0, width: 1920, height: 1080 }),
+    random: createRandomSequence([0.75, 0.5]),
+    startInterval: () => 1,
+    stopInterval: () => {},
+    speedPxPerSecond: 400
+  });
+
+  mover.start();
+  await waitForMovementCycle();
+
+  assert.deepEqual(movedTo, [{
+    position: { x: 1440, y: 540 },
+    movementPlan: { durationMs: 1200, curveOffset: 0 }
+  }]);
 });
 
 test('stopping the mouse mover cancels the active movement', () => {
